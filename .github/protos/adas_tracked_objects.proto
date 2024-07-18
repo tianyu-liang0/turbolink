@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package moz.msg;
 
-import "onboard/signals/common_types/vector.proto";
-import "onboard/signals/common_types/pose.proto";
+import "vector.proto";
+import "pose.proto";
 
 message ADASTrackedObject {
   // We require this value to be unique per tracked object

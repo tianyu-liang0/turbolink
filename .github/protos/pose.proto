@@ -2,8 +2,8 @@ syntax = "proto2";
 
 package moz.msg;
 
-import "onboard/signals/common_types/vector.proto";
-import "onboard/signals/common_types/rotation.proto";
+import "vector.proto";
+import "rotation.proto";
 
 // This message defines a Pose that can be specified in a 2d or 3d format.
 // The coordinate system for this pose is a right handed, X forward and Z up coordinate system.
