@@ -1,0 +1,50 @@
+syntax = "proto2";
+
+package moz.msg;
+
+import "onboard/signals/common_types/vector.proto";
+import "onboard/signals/common_types/pose.proto";
+
+message ADASTrackedObject {
+  // We require this value to be unique per tracked object
+  // if there are duplicates of the same id in the list of
+  // tracked objects, the last one in the list will be visualized.
+  required uint32 object_id = 1;
+  required Pose object_pose = 2;
+  required TrackedObjectType object_type = 3 [default = TRACKED_OBJECT_TYPE_SEDAN];
+  required TrackedObjectHighlight object_highlight = 4 [default = TRACKED_OBJECT_HIGHLIGHT_NONE];
+  // If this field if not specified the tracked object will be spawned in
+  // at its default size. When the field is specified we will read this as
+  // the XYZ axis and scale the object to that size.
+  required Vector3d tracked_object_size = 5;  // in meters
+  // Confidence is expected to be a 0-1 value that communicates
+  // how sure the stack is that a given track exists. This will
+  // affect how transparent a track is rendered. Any value provided
+  // outside the 0-1 range will result in the track being rendered
+  // with a confidence value of 1.
+  required float confidence_value = 6 [default = 1.0];
+  required bool is_braking = 7 [default = false];
+  // TODO: move to separate debug message
+  // required DebugMessages tracked_object_debug_messages = 8;
+  // required DebugDrawings tracked_object_debug_drawings = 9;
+  reserved 8, 9;
+  reserved "tracked_object_debug_messages", "tracked_object_debug_drawings";
+}
+
+enum TrackedObjectType {
+  TRACKED_OBJECT_TYPE_SEDAN = 0;
+  TRACKED_OBJECT_TYPE_SUV = 1;
+  TRACKED_OBJECT_TYPE_PICKUP_TRUCK = 2;
+  TRACKED_OBJECT_TYPE_BOX_TRUCK = 3;
+  TRACKED_OBJECT_TYPE_PEDESTRIAN = 4;
+  TRACKED_OBJECT_TYPE_BICYCLIST = 5;
+  TRACKED_OBJECT_TYPE_MOTORCYCLIST = 6;
+  TRACKED_OBJECT_TYPE_TRAFFIC_CONE = 7;
+}
+
+enum TrackedObjectHighlight {
+  TRACKED_OBJECT_HIGHLIGHT_NONE = 0;
+  TRACKED_OBJECT_HIGHLIGHT_PRIORITY_1 = 1;
+  TRACKED_OBJECT_HIGHLIGHT_PRIORITY_2 = 2;
+  TRACKED_OBJECT_HIGHLIGHT_PRIORITY_3 = 3;
+}

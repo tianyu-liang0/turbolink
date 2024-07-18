@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+package moz.msg;
+
+import "onboard/signals/common_types/vector.proto";
+import "onboard/signals/common_types/rotation.proto";
+
+// This message defines a Pose that can be specified in a 2d or 3d format.
+// The coordinate system for this pose is a right handed, X forward and Z up coordinate system.
+message Pose {
+  oneof pose {
+    Pose2d pose_2d = 1;
+    Pose3d pose_3d = 2;
+  }
+}
+
+// This message defines a 2D Pose.
+// Typically this pose is used in reference to the ego vehicle. We take the rear center axle and
+// project that point to the ground. The coordinate system is a right handed, X forward and a Z up
+// coordinate system.
+message Pose2d {
+  required Vector2d translation = 1;
+  required float heading = 2;
+}
+
+// This message defines a 3D Pose.
+// The coordinate system is a right handed, X forward and a Z up coordinate system.
+message Pose3d {
+  required Vector3d translation = 1;
+  required Quaternion rotation = 2;
+}

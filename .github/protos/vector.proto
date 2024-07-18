@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+package moz.msg;
+
+// This message defines a vector/translation that can be specified as a 2d or 3d vector.
+// This is useful for cases where you want to specify just the translation of an object but not
+// require any rotation or heading values.
+message Vector {
+  oneof vector {
+    Vector2d vector_2d = 1;
+    Vector3d vector_3d = 2;
+  }
+}
+
+message Vector2d {
+  required float x = 1;
+  required float y = 2;
+}
+
+message Vector3d {
+  required float x = 1;
+  required float y = 2;
+  required float z = 3;
+}
